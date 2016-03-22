@@ -58,7 +58,7 @@ public class ComputerPlayer {
          }
          if (board.intGameLevel==4){
              GoForWinStrategy goForWinMove = new GoForWinStrategy();
-             IntReturnMove = goForWinMove.findWinFor(gameMarker);
+             IntReturnMove = goForWinMove.findWinFor(gameMarker, board);
          }
          return IntReturnMove;
      }

@@ -57,194 +57,30 @@ public class BlockWinStrategy {
         for (int i = 0; i < 9 ; i++) {
             System.out.println("Square value " + i + " is " + board.getSquareValue(i) + ".");
         }
-        // check winning combination 1 -- 0,1,2
-        //--------------------------------------------------------------------------
-        if (board.getSquareValue(0)== marker & board.getSquareValue(1)== marker)  {
-            //block the win by putting the O into square 3
-            //we can only block if the square is open
-            if (board.isSquareOpen(2)) {
-                intWinBlock = 2;
-                blnCanBlock = true;
+        for (int i = 0; i < 8 ; i++) {
+            // check each winning combination
+            //--------------------------------------------------------------------------
+            if (board.getSquareValue(winCombinations[i][0]) == marker & board.getSquareValue(winCombinations[i][1]) == marker) {
+                //block the win by putting the O into square 3
+                //we can only block if the square is open
+                if (board.isSquareOpen(winCombinations[i][2])) {
+                    intWinBlock = winCombinations[i][2];
+                    blnCanBlock = true;
+                }
             }
-        }
-        if (board.getSquareValue(1)== marker & board.getSquareValue(2)== marker)  {
-            //block the win by putting the O into square 1
-            if (board.isSquareOpen(0)){
-            intWinBlock = 0;
-            blnCanBlock = true;
+            if (board.getSquareValue(winCombinations[i][1]) == marker & board.getSquareValue(winCombinations[i][2]) == marker) {
+                //block the win by putting the O into square 1
+                if (board.isSquareOpen(winCombinations[i][0])) {
+                    intWinBlock = winCombinations[i][0];
+                    blnCanBlock = true;
+                }
             }
-        }
-        if (board.getSquareValue(0)== marker & board.getSquareValue(2)== marker){
-            //block the win by putting the O into square 2
-            if (board.isSquareOpen(2)){
-                intWinBlock = 1;
-                blnCanBlock = true;
-            }
-        }
-        // check winning combination 2 --- 3.4.5
-        //--------------------------------------------------------------------------
-        if (board.getSquareValue(3)== marker & board.getSquareValue(4)== marker)  {
-            //block the win by putting the O into square 5
-            if (board.isSquareOpen(5)) {
-                intWinBlock = 5;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(4)== marker & board.getSquareValue(5)== marker){
-            //block the win by putting the O into square 3
-            if (board.isSquareOpen(3)) {
-                intWinBlock = 3;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(3)== marker & board.getSquareValue(5)== marker){
-            //block the win by putting the O into square 4
-            if (board.isSquareOpen(4)) {
-                intWinBlock = 4;
-                blnCanBlock = true;
-            }
-        }
-        // check winning combination 3 --- 6.7.8
-        //----------------------------------------------------------------------------
-        if (board.getSquareValue(6)== marker & board.getSquareValue(7)== marker)  {
-            //block the win by putting the O into square 8
-            if (board.isSquareOpen(8)) {
-                intWinBlock = 8;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(7)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 6
-            if (board.isSquareOpen(6)) {
-                intWinBlock = 6;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(6)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 7
-            if (board.isSquareOpen(7)) {
-                intWinBlock = 7;
-                blnCanBlock = true;
-            }
-        }
-
-        // check winning combination 4 --- 0,3,6
-        //-----------------------------------------------------------------------------
-        if (board.getSquareValue(0)== marker & board.getSquareValue(3)== marker)  {
-            //block the win by putting the O into square 6
-            if (board.isSquareOpen(6)) {
-                intWinBlock = 6;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(3)== marker & board.getSquareValue(6)== marker){
-            //block the win by putting the O into square 0
-            if (board.isSquareOpen(0)) {
-                intWinBlock = 0;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(0)== marker & board.getSquareValue(6)== marker){
-            //block the win by putting the O into square 3
-            if (board.isSquareOpen(3)) {
-                intWinBlock = 3;
-                blnCanBlock = true;
-            }
-        }
-
-        // check winning combination 5 --- 1,4,7
-        //-----------------------------------------------------------------------------
-        if (board.getSquareValue(1)== marker & board.getSquareValue(4)== marker)  {
-            //block the win by putting the O into square 7
-            if (board.isSquareOpen(7)) {
-                intWinBlock = 7;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(4)== marker & board.getSquareValue(7)== marker){
-            //block the win by putting the O into square 1
-            if (board.isSquareOpen(1)) {
-                intWinBlock = 1;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(1)== marker & board.getSquareValue(7)== marker){
-            //block the win by putting the O into square 4
-            if (board.isSquareOpen(4)) {
-                intWinBlock = 4;
-                blnCanBlock = true;
-            }
-        }
-
-        // check winning combination 6 --- 2,5,8
-        //-----------------------------------------------------------------------------
-        if (board.getSquareValue(2)== marker & board.getSquareValue(5)== marker)  {
-            //block the win by putting the O into square 8
-            if (board.isSquareOpen(8)) {
-                intWinBlock = 8;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(5)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 2
-            if (board.isSquareOpen(2)) {
-                intWinBlock = 2;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(2)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 5
-            if (board.isSquareOpen(5)) {
-                intWinBlock = 5;
-                blnCanBlock = true;
-            }
-        }
-
-         // check winning combination 7 --- 0,4,8
-        //-----------------------------------------------------------------------------
-        if (board.getSquareValue(0)== marker & board.getSquareValue(4)== marker)  {
-            //block the win by putting the O into square 8
-            if (board.isSquareOpen(8)) {
-                intWinBlock = 8;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(4)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 0
-            if (board.isSquareOpen(0)) {
-                intWinBlock = 0;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(0)== marker & board.getSquareValue(8)== marker){
-            //block the win by putting the O into square 4
-            if (board.isSquareOpen(4)) {
-                intWinBlock = 4;
-                blnCanBlock = true;
-            }
-        }
-
-        // check winning combination 8 --- 2,4,6
-        //-----------------------------------------------------------------------------
-        if (board.getSquareValue(2)== marker & board.getSquareValue(4)== marker)  {
-            //block the win by putting the O into square 6
-            if (board.isSquareOpen(6)) {
-                intWinBlock = 6;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(4)== marker & board.getSquareValue(6)== marker){
-            //block the win by putting the O into square 2
-            if (board.isSquareOpen(2)) {
-                intWinBlock = 2;
-                blnCanBlock = true;
-            }
-        }
-        if (board.getSquareValue(2)== marker & board.getSquareValue(6)== marker){
-            //block the win by putting the O into square 4
-            if (board.isSquareOpen(4)) {
-                intWinBlock = 4;
-                blnCanBlock = true;
+            if (board.getSquareValue(winCombinations[i][0]) == marker & board.getSquareValue(winCombinations[i][2]) == marker) {
+                //block the win by putting the O into square 2
+                if (board.isSquareOpen(winCombinations[i][1])) {
+                    intWinBlock = winCombinations[i][1];
+                    blnCanBlock = true;
+                }
             }
         }
 

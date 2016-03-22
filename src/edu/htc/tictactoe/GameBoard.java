@@ -23,6 +23,7 @@ public class GameBoard {
     //     3 -- Medium
     //     4 -- Hard
     public int intGameLevel;
+    public int intCurrentPlayer;
 
 
     public GameBoard(char[] stateArray){
@@ -104,7 +105,7 @@ public class GameBoard {
 
             // assign char representation of i to ch1 using radix
             squareNum = Character.forDigit(i+1, 10);
-            board.updateSquare(i+1,squareNum);
+            board.board[i]=squareNum;
         }
         System.out.println("End testing of isOpenSquare");
     }
@@ -155,13 +156,13 @@ public class GameBoard {
             }
           }
         // this is where we swap players if the game has not been won
-        if (Main.intCurrentPlayer == 1){
+        if (intCurrentPlayer == 1){
             // swap to player2
-            Main.intCurrentPlayer = 2;
+            intCurrentPlayer = 2;
         }
         else{
             //swap to player1
-            Main.intCurrentPlayer = 1;
+            intCurrentPlayer = 1;
         }
 
 

@@ -3,23 +3,26 @@ package edu.htc.tictactoe;
 import edu.htc.tictactoe.player.Player;
 import edu.htc.tictactoe.player.HumanPlayer;
 import edu.htc.tictactoe.player.ComputerPlayer;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+
 import java.util.Scanner;
 
 
 public class TicTacToe {
 
-  public GameBoard board = new GameBoard();
-  public Player player1 = new HumanPlayer();
-  public Player player2 = new HumanPlayer();
-  public ComputerPlayer player3 = new ComputerPlayer();
+    public GameBoard board = new GameBoard();
+    private Player player1;
+    private Player player2;
+    private ComputerPlayer player3;
 
-  public int intOpenSquares = 9;
-  public boolean blnGameIsWon = false;
-  public boolean blnGameisTie = false;
-  public boolean blnExitLoop;
-  Scanner input = new Scanner(System.in);
+    public int intOpenSquares = 9;
+    private int intTieGames = 0;
+    public boolean blnGameIsWon = false;
+    public boolean blnGameisTie = false;
+    public boolean blnExitLoop;
+    Scanner input = new Scanner(System.in);
 
-  char[] currentBoard = new char[9];
+    char[] currentBoard = new char[9];
 
   public void playGame() {
 
@@ -29,7 +32,7 @@ public class TicTacToe {
     //Play the game
     do {
 
-      if (Main.intCurrentPlayer == 1) {
+      if (board.intCurrentPlayer == 1) {
         player1.isCurrentPlayer = true;
         if (player2 == null) {
           player3.isCurrentPlayer = false;
@@ -49,31 +52,28 @@ public class TicTacToe {
       if (player1.isCurrentPlayer) {
         intNextMove = player1.getMove('X');
         board.updateSquare(intNextMove, 'X');
-        Main.intCurrentPlayer = 2;
-       } else {
+        } else {
         if (player2 == null) {
           //Computer is playing ..
           intNextMove = player3.getMove(board, 'O');
           board.updateSquare(intNextMove, 'O');
-          Main.intCurrentPlayer = 1;
         } else {
           intNextMove = player2.getMove('O');
           board.updateSquare(intNextMove, 'O');
-          Main.intCurrentPlayer = 1;
         }
       }
       board.display();
       intOpenSquares = board.getOpenSquares();
       System.out.println("There are " + intOpenSquares + " open squares.");
-      if (intOpenSquares == 0) {
         if (board.isGameWon(board.board)) {
           blnExitLoop = true;
           blnGameIsWon = true;
         } else { // Game is a tie
-          blnExitLoop = true;
-          blnGameisTie = true;
+            if (intOpenSquares == 0) {
+                blnExitLoop = true;
+                blnGameisTie = true;
+            }
         }
-      }
 
     } while (!blnExitLoop);
 
@@ -98,25 +98,51 @@ public class TicTacToe {
 
     } else {
       if (blnGameisTie)
+          intTieGames++;
         System.out.println("Sorry, game has ended in a tie.");
     }
     ResetGame();
   }
 
   public void initGame(){
-    currentBoard = board.board;
-    player1.isCurrentPlayer = true;
-    player2.isCurrentPlayer = false;
+      //Update the tictactoe class to ask if there are two players
+      System.out.println("Hi! My name is Hal.");
+      System.out.println("How many players will be playing tictactoe? 1? or 2?");
+      Integer IntAnswer;
+      Boolean blnValid = false;
+      String strAnswer = "";
+      IntAnswer = 0;
+      Integer intloopcount = 0;
 
-    //Update the tictactoe class to ask if there are two players
-    System.out.println("Hi! My name is Hal.");
-    System.out.println("How many players will be playing tictactoe? 1? or 2?");
-    Integer IntAnswer;
-    IntAnswer = input.nextInt();
-    if (IntAnswer == 1){
-        // get the name for the human
+
+      do {
+          strAnswer = input.nextLine();
+          if(!isInteger(strAnswer)){
+              System.out.println("Please enter a number..");
+          } else {
+              IntAnswer = Integer.valueOf(strAnswer);
+          }
+          if (IntAnswer > 0 & IntAnswer < 3){
+              board.intGameLevel = IntAnswer;
+              blnValid = true;
+          } else {
+              System.out.println("Number of players can only be 1 or 2.  Please choose again.");
+              blnValid = false;
+          }
+          intloopcount++;
+      } while (!blnValid);
+
+
+
+
+
+
+      if (IntAnswer == 1){
+        // Create the human player and then get the name for the human
+        player1 = new HumanPlayer();
         player1.getName(1);
         // set the name for the computer to "Hal"
+        player3 = new ComputerPlayer();
         player3.setName("HAL");
         player2 = null;
         System.out.println("OK, the computer will be playing the game with you!");
@@ -131,16 +157,47 @@ public class TicTacToe {
         System.out.println("Level 2 is Easy");
         System.out.println("Level 3 is Medium");
         System.out.println("Level 4 is Hard");
-        IntAnswer = input.nextInt();
 
-        if (IntAnswer > 0 & IntAnswer < 5){
-            board.intGameLevel = IntAnswer;
-        }
+        strAnswer = "";
+        IntAnswer = 0;
+        intloopcount = 0;
+
+        do {
+            strAnswer = input.nextLine();
+            if(!isInteger(strAnswer)){
+                if (intloopcount>0){
+                    System.out.println("Please enter a number..");
+                }
+            } else {
+                IntAnswer = Integer.valueOf(strAnswer);
+            }
+            if (IntAnswer > 0 & IntAnswer < 5){
+                board.intGameLevel = IntAnswer;
+                blnValid = true;
+            } else {
+                if (intloopcount>0){
+                    System.out.println("Level of Difficulty is a number from 1 to 4.  Please choose again.");
+                }
+                 blnValid = false;
+            }
+            intloopcount++;
+        } while (!blnValid);
 
     } else {
-      player1.getName(1);
-      player2.getName(2);
+          player1 = new HumanPlayer();
+          player2 = new HumanPlayer();
+          player1.getName(1);
+          player2.getName(2);
     }
+      currentBoard = board.board;
+      board.display();
+      board.intCurrentPlayer = 1;
+      player1.isCurrentPlayer = true;
+      if (player2 != null){
+          player2.isCurrentPlayer = false;
+      }
+
+
   }
 
   public void gameReport(){
@@ -167,8 +224,17 @@ public class TicTacToe {
         System.out.println(player3.name + " has won " + player3.winCounter + " times.");
       }
     }
+      if (intTieGames > 0){
+          if (intTieGames == 1){
+            System.out.println("The game ended in a tie 1 time.");}
+          else {
+              System.out.println("The game ended in a tie " + intTieGames + " times.");
+          }
+      }
    }
-  public void ResetGame(){
+
+
+    public void ResetGame(){
     // reset the board back to its integer values
     board.board = new char[] {'1','2','3','4','5','6','7','8','9'};
     currentBoard = board.board;
@@ -177,6 +243,19 @@ public class TicTacToe {
     blnGameIsWon = false;
     blnGameisTie = false;
   }
+
+    public boolean isInteger( String input )
+    {
+        try
+        {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch ( Exception exc )
+        {
+            return false;
+        }
+    }
 
 }
 

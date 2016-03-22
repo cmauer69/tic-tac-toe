@@ -43,13 +43,13 @@ public abstract class Player {
                 strName = input.nextLine();
                 this.name = strName;
                 System.out.println("Player" + intPlayerNumber +" name has been set to : " + this.name);
-                if (!this.name.isEmpty()) {
+                if (this.name.length()>1) {
                     blnValid = true;
                 } else {
-                    System.out.println("Player name cannot be blank1.  Please enter a player name.");
+                    System.out.println("Player name has to be at least 2 characters long.  Please enter a player name.");
                     blnValid = false;
                 }
-    } while (!blnValid);
+         } while (!blnValid);
     }
 
 

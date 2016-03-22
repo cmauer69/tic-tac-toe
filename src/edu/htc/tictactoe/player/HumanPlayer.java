@@ -14,12 +14,12 @@ public class HumanPlayer extends Player {
 
         do {
             strMove = input.nextLine();
-            if(strMove.isEmpty()){
+            if(!isInteger(strMove)){
                 System.out.println("Please enter a number..");
             } else {
                 intSquareChoice = Integer.valueOf(strMove);
             }
-            if (intSquareChoice > 0 & intSquareChoice <= 10){
+            if (intSquareChoice > 0 & intSquareChoice < 10){
                 blnValid = true;
             } else {
                 System.out.println("Player move can only be numbers 1 through 9.  Please choose again.");
@@ -32,5 +32,17 @@ public class HumanPlayer extends Player {
 
         return intSquareChoice;
 
+    }
+    public boolean isInteger( String input )
+    {
+        try
+        {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch ( Exception exc )
+        {
+            return false;
+        }
     }
 }
